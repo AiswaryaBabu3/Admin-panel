@@ -1,0 +1,12 @@
+.img-circle{
+    border-radius: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    float: left;
+}
+
+@media only screen and (max-width: 1000px){
+    #user{
+        margin-left: 40%;
+    }
+}

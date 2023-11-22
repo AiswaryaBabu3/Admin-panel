@@ -1,0 +1,36 @@
+.container{
+    float: right;
+    width: 82.5%;
+    color: grey;
+    font-size: medium;
+    font-family: 'Lato', sans-serif;
+    padding: 20px;
+}
+.table{
+    color: black;
+}
+.del-btn{
+    background-color: red;
+    float: right;
+    margin-top: -59px;
+    margin-right: 50px;
+    float: right;
+border-radius: 5px;
+text-align: center;
+font-size: 20px;
+padding: 6px;
+width: 40px;
+border: 1px solid black;
+color: white;
+}
+.save-btn{
+    background-color: green;
+    margin-left: 40%;
+    border: 2px solid green;
+    width: 20%;
+}
+.save-btn:hover{
+    background-color: rgb(24, 167, 24);
+}
+
+
