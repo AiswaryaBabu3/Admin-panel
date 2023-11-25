@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import './Catagories.css';
 
 const CategoriesForm = ({ onFormSubmit, initialFormData, editMode }) => {
-  const [formData, setFormData] = useState(initialFormData || { category: '', subcategory: '', description: '' });
+  const [formData, setFormData] = useState(initialFormData || { Catagory: '', SubCatagory: '', Description: '' });
   const [errors, setErrors] = useState({});
 
   const handleFormSubmit = () => {
     const newErrors = {};
 
-    if (!formData.category.trim()) {
-      newErrors.category = 'Category is required';
+    if (!formData.Catagory.trim()) {
+      newErrors.Catagory = 'Category is required';
     }
 
-    if (!formData.subcategory.trim()) {
-      newErrors.subcategory = 'Subcategory is required';
+    if (!formData.SubCatagory.trim()) {
+      newErrors.SubCatagory = 'Subcategory is required';
     }
 
     if (Object.keys(newErrors).length === 0) {
-      onFormSubmit(formData, editMode);
-      setFormData({ category: '', subcategory: '', description: '' });
+      onFormSubmit(formData);
+      setFormData({ Catagory: '', SubCatagory: '', Description: '' });
       setErrors({});
     } else {
       setErrors(newErrors);
@@ -34,11 +34,11 @@ const CategoriesForm = ({ onFormSubmit, initialFormData, editMode }) => {
             type="text"
             name="category"
             placeholder="Category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            value={formData.Catagory}
+            onChange={(e) => setFormData({ ...formData, Catagory: e.target.value })}
             required
           />
-          <div style={{ color: 'red' }}>{errors.category}</div>
+          <div style={{ color: 'red' }}>{errors.Catagory}</div>
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label>Subcategory: <span style={{ color: 'red' }}>*</span></label>
@@ -46,20 +46,20 @@ const CategoriesForm = ({ onFormSubmit, initialFormData, editMode }) => {
             type="text"
             name="subcategory"
             placeholder="Subcategory"
-            value={formData.subcategory}
-            onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
+            value={formData.SubCatagory}
+            onChange={(e) => setFormData({ ...formData, SubCatagory: e.target.value })}
             required
           />
-          <div style={{ color: 'red' }}>{errors.subcategory}</div>
+          <div style={{ color: 'red' }}>{errors.SubCatagory}</div>
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label>Description:</label>
           <textarea
             name="description"
             placeholder="Description"
-            value={formData.description}
+            value={formData.Description}
             style={{width:'100%'}}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) => setFormData({ ...formData, Description: e.target.value })}
           />
         </div>
         <button onClick={handleFormSubmit} style={{ color: 'white', padding: '5px 10px' }} className='btn-save'>

@@ -1,10 +1,6 @@
-// Customer.js
-
 import React, { useState, useEffect, useCallback } from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as GiIcons from 'react-icons/gi';
-
-
 import './Customer.css';
 
 const Customer = () => {
@@ -13,7 +9,7 @@ const Customer = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRegistrations, setTotalRegistrations] = useState(0);
-  const registrationsPerPage = 5;
+  const registrationsPerPage = 10;
 
   const fetchRegistrations = useCallback(async () => {
     try {

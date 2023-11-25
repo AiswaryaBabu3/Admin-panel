@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import * as AiIcons from "react-icons/ai";
+// Inside CategoriesTable.js
+import React, { useState } from 'react';
+import * as AiIcons from 'react-icons/ai';
 
 const CategoriesTable = ({
   data,
@@ -8,41 +9,58 @@ const CategoriesTable = ({
   onToggleSelect,
   onDeleteSelected,
   onSelectAll,
+  page,
+  limit,
 }) => {
-  const [sortBy, setSortBy] = useState("sno");
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortBy, setSortBy] = useState('sno');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const handleSort = (column) => {
     if (column === sortBy) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortBy(column);
-      setSortOrder("desc");
+      setSortOrder('desc');
     }
   };
 
+  const handleSelectAll = () => {
+    const allItemIds = data.map((item) => item._id);
+
+    // If all items are currently selected, deselect all; otherwise, select all
+    const newSelectedItems =
+      selectedItems.length === allItemIds.length ? [] : allItemIds;
+
+    onSelectAll(newSelectedItems);
+  };
+
+  const handleDeleteSelected = () => {
+    onDeleteSelected(selectedItems);
+  };
+
   const sortedData = [...data].sort((a, b) => {
-    if (sortBy === "sno") {
-      return sortOrder === "desc" ? b.id - a.id : a.id - b.id;
-    } else if (sortBy === "category") {
-      return sortOrder === "asc" ? a.category.localeCompare(b.category) : b.category.localeCompare(a.category);
-    } else if (sortBy === "subcategory") {
-      return sortOrder === "asc" ? a.subcategory.localeCompare(b.subcategory) : b.subcategory.localeCompare(a.subcategory);
-    } else if (sortBy === "description") {
-      return sortOrder === "asc" ? a.description.localeCompare(b.description) : b.description.localeCompare(a.description);
+    if (sortBy === 'sno') {
+      return sortOrder === 'desc' ? b.id - a.id : a.id - b.id;
+    } else if (sortBy === 'Catagory') {
+      return sortOrder === 'asc'
+        ? a.Catagory.localeCompare(b.Catagory)
+        : b.Catagory.localeCompare(a.Catagory);
+    } else if (sortBy === 'SubCatagory') {
+      return sortOrder === 'asc'
+        ? a.SubCatagory.localeCompare(b.SubCatagory)
+        : b.SubCatagory.localeCompare(a.SubCatagory);
+    } else if (sortBy === 'Description') {
+      return sortOrder === 'asc'
+        ? a.Description.localeCompare(b.Description)
+        : b.Description.localeCompare(a.Description);
     } else {
       return 0;
     }
   });
 
-  const handleSelectAll = () => {
-    const allItemIds = data.map((item) => item.id);
-    onSelectAll(allItemIds);
-  };
-
   return (
     <div>
-      <button onClick={() => onDeleteSelected(selectedItems)} className="del-btn">
+      <button onClick={handleDeleteSelected} className="del-btn">
         <AiIcons.AiFillDelete />
       </button>
       <table>
@@ -53,12 +71,13 @@ const CategoriesTable = ({
                 type="checkbox"
                 onChange={handleSelectAll}
                 checked={selectedItems.length === data.length}
+                style={{cursor:'pointer'}}
               />
             </th>
-            <th onClick={() => handleSort("sno")}>S.No</th>
-            <th onClick={() => handleSort("category")}>Category</th>
-            <th onClick={() => handleSort("subcategory")}>Subcategory</th>
-            <th onClick={() => handleSort("description")}>Description</th>
+            <th>S.No</th>
+            <th onClick={() => handleSort('Catagory')}>Category</th>
+            <th onClick={() => handleSort('SubCatagory')}>Subcategory</th>
+            <th onClick={() => handleSort('Description')}>Description</th>
             <th className="actions">Actions</th>
           </tr>
         </thead>
@@ -68,19 +87,25 @@ const CategoriesTable = ({
               <td>
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(item.id)}
-                  onChange={() => onToggleSelect(item.id)}
+                  checked={selectedItems.includes(item._id)}
+                  onChange={() => onToggleSelect(item._id)}
+                  style={{cursor:'pointer'}}
                 />
               </td>
-              <td>{index + 1}</td>
-              <td>{item.category}</td>
-              <td>{item.subcategory}</td>
-              <td>{item.description}</td>
+              <td>{(page - 1) * limit + index + 1}</td>
+              <td>{item.Catagory}</td>
+              <td>{item.SubCatagory}</td>
+              <td>{item.Description}</td>
               <td>
                 <button
                   className="btn"
-                  style={{ backgroundColor: "green", color: "white", padding: "5px 10px", marginRight: "5px" }}
-                  onClick={() => onEdit(item.id)}
+                  style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    padding: '5px 10px',
+                    marginRight: '5px',
+                  }}
+                  onClick={() => onEdit(item._id)}
                 >
                   <AiIcons.AiFillEdit />
                 </button>
