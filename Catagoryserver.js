@@ -46,6 +46,28 @@ app.post("/save", async (req, res) => {
   }
 });
 
+
+app.get("/fetch-categories", async (req, res) => {
+  try {
+    const categories = await CatagoryModel.distinct('Catagory');
+    res.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/fetch-subcategories", async (req, res) => {
+  try {
+    const { category } = req.query;
+    const subcategories = await CatagoryModel.distinct('SubCatagory', { Catagory: category });
+    res.json(subcategories);
+  } catch (error) {
+    console.error("Error fetching subcategories:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get("/fetch", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -55,11 +77,10 @@ app.get("/fetch", async (req, res) => {
 
     const [data, total] = await Promise.all([
       CatagoryModel.find().sort({ _id: -1 }).skip(skip).limit(limit),
-      CatagoryModel.countDocuments()
+      CatagoryModel.countDocuments(),
     ]);
 
     const totalPages = Math.ceil(total / limit);
-
     res.json({ data, totalPages });
   } catch (error) {
     console.error("Error fetching data:", error);

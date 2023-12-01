@@ -1,86 +1,102 @@
-import React, { useState } from "react";
-import * as AiIcons from 'react-icons/ai'
+import React, { useState, useEffect } from 'react';
+import * as AiIcons from 'react-icons/ai';
 
-const Producttable = ({ data, onEdit, selectedItems, onToggleSelect, onDeleteSelected }) => {
-  const [sortBy, setSortBy] = useState("sno");
-  const [sortOrder, setSortOrder] = useState("desc");
+const ProductTable = ({ onEdit, selectedItems, onToggleSelect, onDeleteSelected }) => {
+  const [data, setData] = useState([]);
+  const [sortBy, setSortBy] = useState('sno');
+  const [sortOrder, setSortOrder] = useState('desc');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDeleteClick = () => {
+    onDeleteSelected(selectedItems);
+  };
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:9092/api/get-products');
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleSort = (column) => {
-    if (column === sortBy){
-      setSortOrder( sortOrder === 'asc' ? 'desc' : 'asc');      
-    }
-    else{
+    if (column === sortBy) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
       setSortBy(column);
       setSortOrder('desc');
     }
-  }
+  };
 
   const sortedData = [...data].sort((a, b) => {
-    if (sortBy === "sno") {
-      return sortOrder === "desc" ? b.id - a.id : a.id - b.id;
-    } else if (sortBy === "name") {
-      return sortOrder === "desc" ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name);
-    } else if (sortBy === "price") {
-      return sortOrder === "desc" ? b.price - a.price : a.price - b.price;
-    } else if (sortBy === "offerprice") {
-      return sortOrder === "desc" ? b.offerprice - a.offerprice : a.offerprice - b.offerprice;
-    } else if (sortBy === "quantity") {
-      return sortOrder === "desc" ? b.quantity - a.quantity : a.quantity - b.quantity;
-    } else if (sortBy === "image") {
-      return sortOrder === "desc" ? b.image.localeCompare(a.image) : a.image.localeCompare(b.image);
+    if (sortOrder === 'asc') {
+      return a[sortBy] > b[sortBy] ? 1 : -1;
     } else {
-      // Handle other cases if needed
-      return 0;
+      return a[sortBy] < b[sortBy] ? 1 : -1;
     }
   });
 
   return (
     <div>
-      <button onClick={() => onDeleteSelected(selectedItems)} className="del-btn"> <AiIcons.AiFillDelete/> </button>
-      <table className="table">
-      <thead>
-        <tr>
-          <th>Select</th>
-          <th onClick={()=>handleSort('sno')}>S.No</th>
-          <th onClick={()=>handleSort('name')}>Name</th>
-          <th onClick={()=>handleSort('price')}>Price</th>
-          <th onClick={()=>handleSort('offerprice')}>Offer Price</th>
-          <th onClick={()=>handleSort('quantity')}>Quantity</th>
-          <th onClick={()=>handleSort('image')}>Image</th>
-          <th className="actions">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((item, index) => (
-          <tr key={index}>
-            <td>
-              <input
-                type="checkbox"
-                checked={selectedItems.includes(item.id)}
-                onChange={() => onToggleSelect(item.id)}
-              />
-            </td>
-            <td>{index + 1}</td>
-            <td>{item.name}</td>
-            <td>{item.price}</td>
-            <td>{item.offerprice}</td>
-            <td>{item.quantity} </td>
-            <td>{item.image}</td>
-            <td>
-              <button
-                className='btn-add'
-                style={{ backgroundColor: 'green', color: 'white', padding: '5px 10px', marginRight: '5px' }}
-                onClick={() => onEdit(item.id)}
-              >
-                <AiIcons.AiFillEdit/>
-              </button>
-            </td>
+      <button onClick={handleDeleteClick} className="del-btn">
+        <AiIcons.AiFillDelete />
+      </button>
+      <table>
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th onClick={() => handleSort('category')}>Category</th>
+            <th onClick={() => handleSort('subcategory')}>Subcategory</th>
+            <th onClick={() => handleSort('quantity')}>Quantity</th>
+            <th onClick={() => handleSort('price')}>Price</th>
+            <th onClick={() => handleSort('offerprice')}>Offer Price</th>
+            <th onClick={() => handleSort('startdate')}>Start Date</th>
+            <th onClick={() => handleSort('enddate')}>End Date</th>
+            <th onClick={() => handleSort('image')}>Image</th>
+            <th className="actions">Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          {sortedData.map((item, index) => (
+            <tr key={index}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selectedItems.includes(item.id)}
+                  onChange={() => onToggleSelect(item.id)}
+                />
+              </td>
+              <td>{item.category}</td>
+              <td>{item.subcategory}</td>
+              <td>{item.quantity}</td>
+              <td>{item.price}</td>
+              <td>{item.offerprice}</td>
+              <td>{item.startdate}</td>
+              <td>{item.enddate}</td>
+              <td>
+                <img src={item.image} alt={item.category} style={{ width: '50px', height: '50px' }} />
+              </td>
+              <td>
+  <button
+    className="btn-add"
+    style={{ backgroundColor: 'green', color: 'white', padding: '5px 10px', marginRight: '5px' }}
+    onClick={() => onEdit(item)} // Pass the entire item data to onEdit
+  >
+    <AiIcons.AiFillEdit />
+  </button>
+</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
-export default Producttable;
+export default ProductTable; 

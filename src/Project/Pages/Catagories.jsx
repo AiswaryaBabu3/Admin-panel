@@ -1,3 +1,4 @@
+//Catagories
 import React, { useState, useEffect } from 'react';
 import * as TiIcons from 'react-icons/ti';
 import * as GiIcons from 'react-icons/gi';
