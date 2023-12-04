@@ -10,10 +10,6 @@ import * as BiIcons from 'react-icons/bi'
 import * as AiIcons from 'react-icons/ai'
 import 'bootstrap';
 
-
-
-
-
 function Home(){
     return(
         <div className="home1">

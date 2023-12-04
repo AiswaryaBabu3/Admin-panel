@@ -7,7 +7,7 @@ import Sidebar from './Project/Components/Sidebar';
 import Customer from './Project/Pages/Customer';
 import Products from './Project/Pages/Products';
 import Layout from './Project/Pages/Layout';
-import Themeeditor from './Project/Pages/Themeedditor';
+import Themeeditor from './Project/Pages/Themeeditor';
 import Orders from './Project/Pages/Orders';
 import Returns from './Project/Pages/Returns';
 import Customergroup from './Project/Pages/CustomerGroup';
@@ -38,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
