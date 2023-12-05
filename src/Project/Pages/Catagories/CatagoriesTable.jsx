@@ -35,7 +35,11 @@ const CategoriesTable = ({
   };
 
   const handleDeleteSelected = () => {
-    onDeleteSelected(selectedItems);
+    const confirmDelete = window.confirm('Are you sure you want to delete the selected items?');
+
+    if (confirmDelete) {
+      onDeleteSelected(selectedItems);
+    }
   };
 
   const sortedData = [...data].sort((a, b) => {

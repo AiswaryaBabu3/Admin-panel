@@ -114,7 +114,7 @@ const [isDropdownOpen, setDropdownOpen] = useState(false);
       </Nav>
       <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
-           Navigation
+           <h3 style={{fontWeight:'bold', padding:'10px'}}>Navigation</h3>
             {Sidebardata.map((item, index)=>{
                 return <Submenu item={item} key={index}/>
             })}
