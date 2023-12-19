@@ -6,7 +6,6 @@ function Returns(){
         <div className="home1">
             Reports
         </div>
-
     )
 }
 export default Returns;
